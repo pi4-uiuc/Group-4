@@ -12,9 +12,16 @@
 We focus on geometric data about plants in order to compare the total yields of indoor plants 
 compared to outdoor plants.
 * plant geometry:
-  * aboveground dry biomass
-  * aboveground fresh biomass
-  * canopy cover
-  * canopy height
+  * aboveground_dry_biomass
+  * aboveground_fresh_biomass
+  * canopy_cover
+  * canopy_height
+  * chi_leaf
   * height
+  * leaf_attachment_angle
+  * leaf_length
+  * leaf_node_count
+  * leaf_width
+  * plant_height
+  * stem_diameter
 ## Proposed types of analysis
