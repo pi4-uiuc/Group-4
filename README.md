@@ -1,4 +1,4 @@
-# Group 4
+# Group 4 - "Outdoor-Indoor"
 ## Group members
 * Dane Skabelund
 * Dara Zirlin
@@ -8,7 +8,7 @@
 * How can outdoor behavior be predicted from indoor behavior?
 * Which traits are consistent across indoor and outdoor environments?
 * Which combinations of traits exhibit themselves substantially differently indoors vs. outdoors?
-## Data we need
+## Data
 The geometric plant data which is available to us is:
 * canopy_cover
 * canopy_height
