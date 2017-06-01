@@ -33,8 +33,7 @@ big_table <- traits %>%
   left_join(sites, by = 'site_id')
 
 
-checkme <- c('canopy_cover',
-'canopy_height',
+checkme <- c('canopy_height',
 'chi_leaf',
 'height',
 'leaf_attachment_angle',
@@ -61,11 +60,23 @@ print(geom_traits)
 
 library(readr)
 
-big_table %>% 
-  select(name,date,mean,sitename) %>% 
-  filter(name %in% geom_traits) %>% 
+for(tname in geom_traits){
+big_table %>%
+  select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
+  filter(name == tname) %>%
   collect() %>% 
-  write_csv(path="our_data.csv")
+  write_csv(path= paste0("./data/",tname,"_data.csv"))
+}
+
+              
+
+
+big_table %>% 
+  filter(name == 'leaf_width') %>% 
+  collect()
+  
+
+
   
 
 ```
