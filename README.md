@@ -16,6 +16,7 @@ The geometric plant data which is available to us is:
 * leaf_length
 * leaf_width
 * plant_height
-We also need weather data corresponding to the locationss/dates of the observations.
+
+We also need weather data corresponding to the locations/dates of the observations.
 
 ## Proposed types of analysis
