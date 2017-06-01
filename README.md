@@ -1,4 +1,4 @@
-# Group 4
+# Group 4 (Outdoor-Indoor)
 ## Group members
 * Dane Skabelund
 * Dara Zirlin
