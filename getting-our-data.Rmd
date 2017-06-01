@@ -1,0 +1,76 @@
+---
+title: "geom-data"
+author: "Dane Skabelund"
+date: "5/30/2017"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE)
+```
+
+## Viewing first data
+
+```{r, warning=FALSE}
+library(dplyr)
+
+bety_src <- src_postgres(dbname = "bety", 
+                         password = 'bety', 
+                         host = 'terra-bety.default', 
+                         user = 'bety', 
+                         port = 5432)
+
+traits <- tbl(bety_src, 'traits') # n=Inf)
+
+variables <- tbl(bety_src, 'variables') %>%
+  mutate(variable_id = id)
+
+sites <- tbl(bety_src, 'sites') %>%
+  mutate(site_id = id)
+
+big_table <- traits %>%
+  left_join(variables, by = 'variable_id') %>% 
+  left_join(sites, by = 'site_id')
+
+
+checkme <- c('canopy_cover',
+'canopy_height',
+'chi_leaf',
+'height',
+'leaf_attachment_angle',
+'leaf_length',
+'leaf_node_count',
+'leaf_width',
+'plant_height',
+'stem_diameter')
+
+geom_traits <- c()
+
+for(tname in checkme){
+my_trait <- big_table %>% 
+  select(sitename, name, mean) %>% 
+  filter(name == tname) %>% 
+  collect()
+if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
+}
+
+
+print(geom_traits)
+
+
+
+
+
+distinct(traits,cultivar_id)
+
+
+traits
+
+filter(traits, cultivar_id == NULL)
+
+```
+
+
+
+
+
