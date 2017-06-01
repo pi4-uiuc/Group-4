@@ -20,7 +20,7 @@ bety_src <- src_postgres(dbname = "bety",
                          user = 'bety', 
                          port = 5432)
 
-traits <- tbl(bety_src, 'traits') # n=Inf)
+traits <- tbl(bety_src, 'traits', n=Inf)
 
 variables <- tbl(bety_src, 'variables') %>%
   mutate(variable_id = id)
@@ -54,19 +54,19 @@ my_trait <- big_table %>%
 if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
 }
 
-
 print(geom_traits)
 
 
 
 
+library(readr)
 
-distinct(traits,cultivar_id)
-
-
-traits
-
-filter(traits, cultivar_id == NULL)
+big_table %>% 
+  select(name,date,mean,sitename) %>% 
+  filter(name %in% geom_traits) %>% 
+  collect() %>% 
+  write_csv(path="our_data.csv")
+  
 
 ```
 
@@ -74,3 +74,7 @@ filter(traits, cultivar_id == NULL)
 
 
 
+
+```{r}
+distinct(traits,cultivar_id)
+```
