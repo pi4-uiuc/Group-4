@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE)
 
 ```{r, warning=FALSE}
 library(dplyr)
+library(readr)
+
 
 bety_src <- src_postgres(dbname = "bety", 
                          password = 'bety', 
@@ -33,6 +35,8 @@ big_table <- traits %>%
   left_join(sites, by = 'site_id')
 
 
+# getting a list geom_traits of traits we want, which are actually there
+
 checkme <- c('canopy_height',
 'chi_leaf',
 'height',
@@ -49,32 +53,23 @@ for(tname in checkme){
 my_trait <- big_table %>% 
   select(sitename, name, mean) %>% 
   filter(name == tname) %>% 
-  collect()
   collect(n=Inf)
 if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
 }
 
-print(geom_traits)
 
-
-
-
-library(readr)
+# download traits we want to /data/*.csv
 
 for(tname in geom_traits){
   big_table %>%
     select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
     filter(name == tname) %>%
-    collect() %>% 
     collect(n = Inf) %>% 
     write_csv(path= paste0("./data/",tname,"_data.csv"))
 }
 
 
-
-
-big_table %>% 
-  filter(name == 'leaf_width') %>% 
-  collect()
   
 ```
+
+
