@@ -22,7 +22,7 @@ bety_src <- src_postgres(dbname = "bety",
                          user = 'bety', 
                          port = 5432)
 
-traits <- tbl(bety_src, 'traits', n=Inf)
+traits <- tbl(bety_src, 'traits')
 
 variables <- tbl(bety_src, 'variables') %>%
   mutate(variable_id = id)
@@ -62,14 +62,22 @@ if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
 
 for(tname in geom_traits){
   big_table %>%
-    select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
     filter(name == tname) %>%
+    select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
     collect(n = Inf) %>% 
-    write_csv(path= paste0("./data/",tname,"_data.csv"))
+    write_csv(path = paste0("./data/",tname,"_data.csv"))
 }
 
 
-  
+
+
+big_table %>%
+  filter(name in geom_traits) %>%
+  collect(n=Inf) %>%
+  dim()
+
+
+
 ```
 
 
