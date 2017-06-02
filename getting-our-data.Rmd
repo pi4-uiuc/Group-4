@@ -50,6 +50,7 @@ my_trait <- big_table %>%
   select(sitename, name, mean) %>% 
   filter(name == tname) %>% 
   collect()
+  collect(n=Inf)
 if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
 }
 
@@ -61,31 +62,19 @@ print(geom_traits)
 library(readr)
 
 for(tname in geom_traits){
-big_table %>%
-  select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
-  filter(name == tname) %>%
-  collect() %>% 
-  write_csv(path= paste0("./data/",tname,"_data.csv"))
+  big_table %>%
+    select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
+    filter(name == tname) %>%
+    collect() %>% 
+    collect(n = Inf) %>% 
+    write_csv(path= paste0("./data/",tname,"_data.csv"))
 }
 
-              
+
 
 
 big_table %>% 
   filter(name == 'leaf_width') %>% 
   collect()
   
-
-
-  
-
-```
-
-
-
-
-
-
-```{r}
-distinct(traits,cultivar_id)
 ```
