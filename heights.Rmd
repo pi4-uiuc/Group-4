@@ -1,0 +1,58 @@
+---
+title: "heights"
+author: "Dara Zirlin"
+date: "6/5/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE}
+library(dplyr)
+
+bety_src <- src_postgres(dbname = "bety", 
+                         password = 'bety', 
+                         host = 'terra-bety.default', 
+                         user = 'bety', 
+                         port = 5432)
+
+traits <- tbl(bety_src, 'traits')
+
+variables <- tbl(bety_src, 'variables') %>%
+  mutate(variable_id = id)
+
+sites <- tbl(bety_src, 'sites') %>%
+  mutate(site_id = id)
+
+big_table <- traits %>%
+  left_join(variables, by = 'variable_id') %>% 
+  left_join(sites, by = 'site_id') 
+
+
+height<-big_table %>% 
+  filter(name == 'height') %>%
+  #select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
+  collect(n=Inf)
+  
+
+library(MASS) 
+height.freq = table(height$date)
+
+
+barplot(height.freq) 
+
+distinct(height,date)
+
+
+
+format(as.POSIXct(height$date, format = "%Y-%m-%d %H%H:%M:%S"), format='%Y-%m-%d')
+
+
+height$date<-format(as.POSIXct(height$date, format = "%Y-%m-%d %H%H:%M:%S"), format='%Y-%m-%d')
+
+height
+
+
+```
