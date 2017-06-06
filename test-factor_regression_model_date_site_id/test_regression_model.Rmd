@@ -20,13 +20,14 @@ fullmodel_plant <- lm(mean~date*cultivar_id,data=plant_height)
 
 summary(fullmodel_height)
 summary(fullmodel_plant)
+
 par(mfrow=c(2,2))
-
-
 plot(fullmodel_height)
+
 
 par(mfrow=c(2,2))
 plot(fullmodel_plant)
+
 
 
 ```
