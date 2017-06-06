@@ -18,6 +18,7 @@ The geometric plant data which is available to us is:
 * plant_height
 
 ##Weather Data
+
 We also need weather data corresponding to the locations/dates of the observations.
 (Weather data available to us)
 * sunDirection
