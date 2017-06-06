@@ -1,0 +1,76 @@
+---
+title: "outdoor-regressions"
+author: "K Duran"
+date: "6/6/2017"
+output: html_document
+---
+
+```{r}
+#create linear regression lines for each site id outdoors
+
+#convert dates to correct date type
+
+heights <- read.csv('./Group-4/data/height_data.csv')
+head(heights)
+
+heights$date <- sapply(heights$date, as.Date)
+
+
+
+plot(heights$date, heights$mean)
+
+all_regr <- lm(heights$date ~ heights$mean)
+
+summary(all_regr)
+
+?summary
+
+
+
+
+#make a linear model for a single location, here we will use 'MAC Field Scanner Field Plot 18 Season 2'
+
+heights_plot18 <- subset(heights, sitename == 'MAC Field Scanner Field Plot 18 Season 2', select = c(date, mean))
+
+regr18 <- lm(heights_plot18$mean ~ heights_plot18$date)
+summary(regr18)
+
+plot(heights_plot18$date, heights_plot18$mean)
+abline(regr18, col='red')
+
+
+length(unique(heights$sitename))
+
+#generate a linear model for each unique location (list version, working)
+regr_individuals <- c()
+
+
+for(plotindex in unique(heights$sitename)){
+  heights_plotindex <- subset(heights, sitename == plotindex, select = c(date, mean))
+  regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
+  regr_individuals <- c(regr_individuals, regrindex)
+}
+
+head(regr_individuals)
+
+
+
+
+#generate a linear model for each unique location (data frame version, not working)
+regr_individuals <- data.frame()
+
+for(plotindex in unique(heights$sitename)){
+  #pick a site and generate its linear model
+  heights_plotindex <- subset(heights, sitename == plotindex, select = c(date, mean))
+  regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
+  #add the site and its lin model to the data frame
+  regr_individuals <- rbind(regr_individuals, regrindex)
+}
+
+
+
+```
+
+
+
+
