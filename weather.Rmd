@@ -36,6 +36,5 @@ write_csv(x= met$environment_sensor_readings$weather_station$windVelocity,path="
 write_csv(x= met$environment_sensor_readings$weather_station$precipitation,path="weatherData/precipitation.csv")
 
 write_csv(x= met$environment_sensor_readings$weather_station$windDirection,path="weatherData/windDirection.csv")
-#big_data = do.call(rbind, datalist)
-#big_data
+
 ```
