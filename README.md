@@ -4,7 +4,7 @@
 * Dara Zirlin
 * Kimberly Duran
 * Qiang Wu
-## Questions
+## Questions( Should be revised a little bit later)
 * How can outdoor behavior be predicted from indoor behavior?
 * Which traits are consistent across indoor and outdoor environments?
 * Which combinations of traits exhibit themselves substantially differently indoors vs. outdoors?
@@ -18,5 +18,18 @@ The geometric plant data which is available to us is:
 * plant_height
 
 We also need weather data corresponding to the locations/dates of the observations.
-
+(Weather data available to us)
+*sunDirection
+*airPressure
+*brightness
+*relHumidity
+*temperature
+*windDirection
+*precipitation
+*windVelocity
+(QUESTION:Correspondence to dates)
 ## Proposed types of analysis
+
+Construction some regression models
+
+
