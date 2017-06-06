@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(readr)
 metfile <- "/data/terraref/sites/ua-mac/raw_data/EnvironmentLogger/2017-05-31/2017-05-31_12-19-38_environmentlogger.json"
 met <- jsonlite::fromJSON(metfile)
 
@@ -17,4 +18,24 @@ met$environment_sensor_readings$weather_station$temperature
 
 met$environment_sensor_readings$weather_station
 met$environment_sensor_readings
+
+coln <- c(colnames(met$environment_sensor_readings$weather_station))
+
+write_csv(x= met$environment_sensor_readings$weather_station$sunDirection,path="weatherData/sunDirection.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$airPressure,path="weatherData/airPressure.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$brightness,path="weatherData/brightness.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$relHumidity,path="weatherData/srelHumidity.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$temperature,path="weatherData/temperature.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$windVelocity,path="weatherData/windVelocity.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$precipitation,path="weatherData/precipitation.csv")
+
+write_csv(x= met$environment_sensor_readings$weather_station$windDirection,path="weatherData/windDirection.csv")
+#big_data = do.call(rbind, datalist)
+#big_data
 ```
