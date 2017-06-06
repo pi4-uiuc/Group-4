@@ -1,0 +1,30 @@
+---
+title: "Reference for Factor Regression Model"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# install.packages("faraway") #remember to install this package if you did not before 
+
+library(faraway)
+
+rats # this is an example of factor data with different levels included in the package faraway
+
+summary(rats)
+
+
+lmModel <- lm(time~poison*treat,data=rats)
+
+summary(lmModel)
+par(mfrow=c(2,2))
+plot(lmModel)
+
+
+```
+
+
+

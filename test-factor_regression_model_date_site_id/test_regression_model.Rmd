@@ -1,0 +1,33 @@
+---
+title: "test Regression Model"
+output: html_document
+author:qiangwu2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+## Based on the reference project, we will try to construct the regression model viewing date and site_id as factors
+
+##install.package("faraway")
+
+library(faraway)
+
+fullmodel_height <- lm(mean~date*site_id,data=height)
+fullmodel_plant <- lm(mean~date*cultivar_id,data=plant_height)
+
+summary(fullmodel_height)
+summary(fullmodel_plant)
+
+par(mfrow=c(2,2))
+plot(fullmodel_height)
+
+
+par(mfrow=c(2,2))
+plot(fullmodel_plant)
+
+
+
+```

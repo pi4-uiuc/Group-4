@@ -63,16 +63,16 @@ if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
 for(tname in geom_traits){
   big_table %>%
     filter(name == tname) %>%
-    select(name,date,mean,sitename,greenhouse,city,cultivar_id) %>% 
+    select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>% 
     collect(n = Inf) %>% 
-    write_csv(path = paste0("./data/",tname,"_data.csv"))
+    write_csv(path = paste0("./data/",tname,".csv"))
 }
 
 
 
 
 big_table %>%
-  filter(name in geom_traits) %>%
+  filter(name == 'plant_height') %>%
   collect(n=Inf) %>%
   dim()
 
