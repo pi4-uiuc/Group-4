@@ -8,7 +8,7 @@
 * How can outdoor behavior be predicted from indoor behavior?
 * Which traits are consistent across indoor and outdoor environments?
 * Which combinations of traits exhibit themselves substantially differently indoors vs. outdoors?
-## Data
+## Geometric Data
 The geometric plant data which is available to us is:
 * canopy_cover
 * canopy_height
@@ -16,17 +16,17 @@ The geometric plant data which is available to us is:
 * leaf_length
 * leaf_width
 * plant_height
-
+##Weather Data
 We also need weather data corresponding to the locations/dates of the observations.
 (Weather data available to us)
-*sunDirection
-*airPressure
-*brightness
-*relHumidity
-*temperature
-*windDirection
-*precipitation
-*windVelocity
+* sunDirection
+* airPressure
+* brightness
+* relHumidity
+* temperature
+* windDirection
+* precipitation
+* windVelocity
 (QUESTION:Correspondence to dates)
 ## Proposed types of analysis
 
