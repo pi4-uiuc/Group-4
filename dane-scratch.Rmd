@@ -1,0 +1,82 @@
+---
+title: "dane scratch"
+author: "Dane Skabelund"
+date: "6/2/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r}
+
+library(dplyr)
+library(readr)
+
+library(ggplot2)
+
+ph <- read.table("./data/plant_height.csv", header = TRUE, sep = ",")
+
+ph$date <- sapply(ph$date, as.Date)
+
+#format(as.Date(ph$date), "%Y-%m-%d")
+
+ggplot(data = ph, aes(x = date, y = mean)) +
+  geom_point() +
+  facet_wrap( ~ cultivar_id)
+
+```
+
+
+
+
+
+```{r}
+
+
+L <- lm( ph$mean ~ ph$date)
+summary(L)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{python}
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+ph = pd.read_csv('./data/plant_height.csv')
+ph.head()
+
+dates = ph['date'].str[:10]
+dates = pd.to_datetime( dates, format='%Y-%m-%d' )
+ph['date'] = dates
+
+grouped = ph.groupby('cultivar_id')
+grouped
+
+for key, group in grouped:
+    fig,ax = plt.subplots()
+    ax.plot( group['date'], group['mean'], '.')
+    fig.figsave(str(key)+".png")
+
+#ph.cultivar_id
+
+```
