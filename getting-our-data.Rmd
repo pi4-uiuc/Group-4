@@ -36,11 +36,44 @@ big_table <- traits %>%
   
 
 
+z<-big_table %>%
+  filter(name == 'plant_height'&!is.null(date)) %>%
+  collect %>% 
+  select(site_id,cultivar_id, date, mean)
+
+
+library(ggplot2)
+
+indoor_plot <- ggplot(data = z , aes(date, mean, group = site_id))+
+  geom_point(size = 0.1, alpha = 0.2) +
+  geom_smooth(method = "lm", se=FALSE, size = 0.1, alpha = 0.2) +
+  facet_wrap(~cultivar_id, scales = 'free_x') +
+  labs(y = "plant_height")
+
+ggsave(filename="./indoor_plots/lm_by_cultivar.png", plot=indoor_plot)
+
+```
+
+
+```{r}
+
+
+
+```
+
+
+
+
+
+```{r}
+
+
 my_cultivars <- big_table %>%
   filter(name == 'plant_height') %>%
   select(cultivar_id) %>% 
   collect(n=Inf) %>% 
   distinct
+
 
 my_cultivars <- my_cultivars$cultivar_id
 
