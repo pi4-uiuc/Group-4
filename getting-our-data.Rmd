@@ -57,9 +57,66 @@ ggsave(filename="./indoor_plots/lm_by_cultivar.png", plot=indoor_plot)
 
 ```{r}
 
+z<-big_table %>%
+  filter(name == 'plant_height'&!is.null(date)) %>%
+  collect %>% 
+  select(site_id,cultivar_id, date, mean)
+
+z$date <- sapply(z$date, as.Date)
+
+reg <- lm(z$mean ~ z$date, data=z)
+reg$coefficients[2]
+
+# indoor in mm, outdoor in cm
+
+```
+
+
+
+
+
+```{r}
+
+z<-big_table %>%
+  filter(name == 'height'&!is.null(date)) %>%
+  collect %>% 
+  select(site_id,cultivar_id, date, mean)
+
+# 
+
+z <- z %>%
+  filter(date > lubridate::ymd('2016-09-07')) %>%
+  filter(date < lubridate::ymd('2016-10-01')) %>%
+  collect(n=Inf)
+
+outdoor_plot <- ggplot(data = z , aes(date, mean, group = site_id))+
+  geom_point(size = 0.1, alpha = 0.2) +
+  geom_smooth(method = "lm", se=FALSE, size = 0.1, alpha = 0.2) +
+  labs(y = "height")
+
+outdoor_plot
+
+ggsave(filename="./indoor_plots/outdoor_lm_by_cultivar.png", plot=outdoor_plot)
+
+# indoor in mm, outdoor in cm
+
+z$date <- sapply(z$date, as.Date)
+
+reg <- lm(z$mean ~ z$date, data=z)
+summary(reg)
+reg$coefficients[2]
 
 
 ```
+
+
+
+
+
+
+
+
+
 
 
 
