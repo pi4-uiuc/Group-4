@@ -5,25 +5,59 @@ date: "6/6/2017"
 output: html_document
 ---
 
+```{r, warning =FALSE}
+
+library(dplyr)
+library(readr)
+
+bety_src <- src_postgres(dbname = "bety",
+                         password = 'bety',
+                         host = 'terra-bety.default',
+                         user = 'bety',
+                         port = 5432)
+
+traits <- tbl(bety_src, 'traits')
+
+variables <- tbl(bety_src, 'variables') %>%
+  mutate(variable_id = id)
+
+sites <- tbl(bety_src, 'sites') %>%
+  mutate(site_id = id)
+
+big_table <- traits %>%
+  left_join(variables, by = 'variable_id') %>%
+  left_join(sites, by = 'site_id')
+
+
+height_table <- big_table %>%
+    filter(name == 'height') %>%
+    select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>%
+    collect(n = Inf) #%>%
+#    write_csv(path = paste0("./data/",'height',".csv"))
+
+write.csv(height_table, '~/Group-4/data/height.csv')
+
+
+```
+
+
+
+
 ```{r}
 #create linear regression lines for each site id outdoors
 
 #convert dates to correct date type
 
-heights <- read.csv('./Group-4/data/height_data.csv')
+heights <- read.csv('~/Group-4/data/height_data.csv')
 head(heights)
 
 heights$date <- sapply(heights$date, as.Date)
 
-
+unique(diff(heights$date))
 
 plot(heights$date, heights$mean)
 
 all_regr <- lm(heights$date ~ heights$mean)
-
-summary(all_regr)
-
-?summary
 
 
 
@@ -33,6 +67,8 @@ summary(all_regr)
 heights_plot18 <- subset(heights, sitename == 'MAC Field Scanner Field Plot 18 Season 2', select = c(date, mean))
 
 regr18 <- lm(heights_plot18$mean ~ heights_plot18$date)
+
+#sanity checks
 summary(regr18)
 
 plot(heights_plot18$date, heights_plot18$mean)
@@ -41,22 +77,29 @@ abline(regr18, col='red')
 
 length(unique(heights$sitename))
 
-#generate a linear model for each unique location (list version, working)
-regr_individuals <- c()
+# #generate a linear model for each unique location (list version, working)
+# regr_individuals <- c()
+# 
+# 
+# for(plotindex in unique(heights$sitename)){
+#   heights_plotindex <- subset(heights, sitename == plotindex, select = c(date, mean))
+#   regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
+#   regr_individuals <- c(regr_individuals, regrindex)
+# }
+# 
+# length(regrindex)
 
 
-for(plotindex in unique(heights$sitename)){
-  heights_plotindex <- subset(heights, sitename == plotindex, select = c(date, mean))
-  regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
-  regr_individuals <- c(regr_individuals, regrindex)
-}
 
-head(regr_individuals)
 
+#generate a linear model for each unique location (data frame version, working)
+day0 = 17021
+int_dates <- sapply(heights$date, as.integer)
+days_passed <- int_dates - day0
 
 
 
-#generate a linear model for each unique location (data frame version, not working)
+
 regr_individuals <- data.frame()
 
 for(plotindex in unique(heights$sitename)){
@@ -64,13 +107,33 @@ for(plotindex in unique(heights$sitename)){
   heights_plotindex <- subset(heights, sitename == plotindex, select = c(date, mean))
   regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
   #add the site and its lin model to the data frame
-  regr_individuals <- rbind(regr_individuals, regrindex)
+  regr_individuals <- rbind(regr_individuals, data.frame(plotindex, regrindex$coefficients[2]), make.row.names = FALSE)
 }
 
+head(regr_individuals)
+names(regr_individuals)<-c('site_id','slope')
 
 
+day0 = 17021
+int_dates <- sapply(heights$date, as.integer)
+days_passed <- int_dates - day0
+
+hist(regr_individuals$slope)
+summary(regr_individuals$slope)
+
+sd(regr_individuals$slope)
+
+
+#check range of dates, can subtract 17021 to durn raw dates into numbers of days
+
+
+
+# int_dates <- sapply(heights$date, as.integer)
+# head(int_dates)
+# 
+# range(int_dates)
+# head(regr_individuals)
+
+#look at residuals, re-query database to get cultivars
 ```
-
-
-
 
