@@ -33,40 +33,54 @@ sites <- tbl(bety_src, 'sites') %>%
 big_table <- traits %>%
   left_join(variables, by = 'variable_id') %>% 
   left_join(sites, by = 'site_id')
+  
 
 
-# getting a list geom_traits of traits we want, which are actually there
+my_cultivars <- big_table %>%
+  filter(name == 'plant_height') %>%
+  select(cultivar_id) %>% 
+  collect(n=Inf) %>% 
+  distinct
 
-checkme <- c('canopy_height',
-'chi_leaf',
-'height',
-'leaf_attachment_angle',
-'leaf_length',
-'leaf_node_count',
-'leaf_width',
-'plant_height',
-'stem_diameter')
+my_cultivars <- my_cultivars$cultivar_id
 
-geom_traits <- c()
 
-for(tname in checkme){
-my_trait <- big_table %>% 
-  select(sitename, name, mean) %>% 
-  filter(name == tname) %>% 
-  collect(n=Inf)
-if(dim(my_trait) > 0){ geom_traits[[length(geom_traits)+1]] <- tname }
+my_cultivars[1] %in% my_cultivars
+
+for(tname in c('height','plant_height') ){
+  big_table %>%
+    filter(name == tname, cultivar_id %in% my_cultivars) %>%
+    select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>% 
+    collect(n = Inf) %>% 
+    write_csv(path = paste0("~/Indoor-Outdoor/data/",tname,".csv"))
 }
+
+
+
+my_outdoor_data <- big_table %>%
+  filter(name == 'height', cultivar_id %in% my_cultivars) %>%
+  select(name,cultivar_id) %>% 
+  collect(n=Inf)
+
+my_outdoor_data
+
+
+```
+
+
+
+
+aa <- big_table %>%
+  filter(name == 'height') %>%
+  select(cultivar_id) %>% 
+  collect(n=Inf) %>% 
+  unique
+
+aa
 
 
 # download traits we want to /data/*.csv
 
-for(tname in geom_traits){
-  big_table %>%
-    filter(name == tname) %>%
-    select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>% 
-    collect(n = Inf) %>% 
-    write_csv(path = paste0("./data/",tname,".csv"))
-}
 
 
 
@@ -78,6 +92,21 @@ big_table %>%
 
 
 
-```
+
+
+
+
+
+
+
+
+
+
+my_outdoor_data <- big_table %>%
+  filter(name == 'height', cultivar_id %in% my_cultivars) %>%
+  select(name,cultivar_id) %>% 
+  collect(n=Inf)
+
+my_outdoor_data
 
 
