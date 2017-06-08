@@ -1,14 +1,14 @@
 ---
-title: "outdoor-regressions"
+title: "outdoor-height-regressions-clean"
 author: "K Duran"
-date: "6/6/2017"
+date: "6/8/2017"
 output: html_document
 ---
 
-```{r, warning =FALSE}
-
+```{r, warning=FALSE}
 library(dplyr)
 library(readr)
+library(ggplot2)
 
 bety_src <- src_postgres(dbname = "bety",
                          password = 'bety',
@@ -29,31 +29,25 @@ big_table <- traits %>%
   left_join(sites, by = 'site_id')
 
 
+
+
+#create linear regression lines for each outdoors site id
+#collect height data into a .csv file
+
 height_table <- big_table %>%
     filter(name == 'height') %>%
     select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>%
-    collect(n = Inf) #%>%
-#    write_csv(path = paste0("./data/",'height',".csv"))
+    collect(n = Inf) 
 
 write.csv(height_table, '~/Group-4/data/height_data.csv')
 
 
-```
 
-
-
-
-```{r}
-#create linear regression lines for each site id outdoors
 
 #convert dates to correct date type
-
 heights <- read.csv('~/Group-4/data/height_data.csv')
-head(heights)
 
 heights$date <- sapply(heights$date, as.Date)
-
-unique(diff(heights$date))
 
 plot(heights$date, heights$mean)
 
@@ -61,45 +55,7 @@ all_regr <- lm(heights$date ~ heights$mean)
 
 
 
-
-#make a linear model for a single location, here we will use 'MAC Field Scanner Field Plot 18 Season 2'
-
-heights_plot18 <- subset(heights, sitename == 'MAC Field Scanner Field Plot 18 Season 2', select = c(date, mean))
-
-regr18 <- lm(heights_plot18$mean ~ heights_plot18$date)
-
-#sanity checks
-summary(regr18)
-
-plot(heights_plot18$date, heights_plot18$mean)
-abline(regr18, col='red')
-
-
-length(unique(heights$sitename))
-
-# #generate a linear model for each unique location (list version, working)
-# regr_individuals <- c()
-# 
-# 
-# for(plotindex in unique(heights$sitename)){
-#   heights_plotindex <- subset(heights, sitename == plotindex, select = c(date, mean))
-#   regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
-#   regr_individuals <- c(regr_individuals, regrindex)
-# }
-# 
-# length(regrindex)
-
-
-
-
-#generate a linear model for each unique location (data frame version, working)
-day0 = 17021
-int_dates <- sapply(heights$date, as.integer)
-days_passed <- int_dates - day0
-
-
-
-
+#generate a linear model for each unique location 
 regr_individuals <- data.frame()
 
 for(plotindex in unique(heights$sitename)){
@@ -110,17 +66,16 @@ for(plotindex in unique(heights$sitename)){
   regr_individuals <- rbind(regr_individuals, data.frame(plotindex, regrindex$coefficients[2]), make.row.names = FALSE)
 }
 
-head(regr_individuals)
 names(regr_individuals)<-c('site_id','slope')
+growthmean = mean(regr_individuals$slope)
 
 
-day0 = 17021
-int_dates <- sapply(heights$date, as.integer)
-days_passed <- int_dates - day0
+ggplot(data=regr_individuals, aes(regr_individuals$slope)) +
+  geom_histogram(col='black', fill = 'springgreen4', alpha = 0.7) +
+  labs(title = 'Growth Rates of Outdoor Plants') +
+  labs(x="Growth (cm/day)", y="Count") +
+  geom_vline(xintercept =growthmean, color="red")
 
-hist(regr_individuals$slope)
-summary(regr_individuals$slope)
 
 
 ```
-
