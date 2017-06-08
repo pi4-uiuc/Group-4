@@ -52,7 +52,7 @@ for(tname in c('height','plant_height') ){
     filter(name == tname, cultivar_id %in% my_cultivars) %>%
     select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>% 
     collect(n = Inf) %>% 
-    write_csv(path = paste0("~/Indoor-Outdoor/data/",tname,".csv"))
+    write_csv(path = paste0('./Indoor-Outdoor/data/',tname,'.csv'))
 }
 
 
