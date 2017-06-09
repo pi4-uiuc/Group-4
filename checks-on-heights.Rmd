@@ -1,11 +1,11 @@
 ---
-title: "outdoor-height-regressions-clean"
+title: "checks"
 author: "K Duran"
-date: "6/8/2017"
+date: "6/9/2017"
 output: html_document
 ---
 
-```{r, warning=FALSE}
+```{r}
 library(dplyr)
 library(readr)
 library(ggplot2)
@@ -34,13 +34,25 @@ big_table <- traits %>%
 #create linear regression lines for each outdoors site id
 #collect height data into a .csv file
 
+
 height_table <- big_table %>%
     filter(name == 'height') %>%
-    collect(n = Inf) 
- #   select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>%
-
+#   filter(name == 'height'&!is.null(date)) %>%
+    filter(date > lubridate::ymd('2016-09-07')) %>%
+    filter(date < lubridate::ymd('2016-10-01')) %>%
+#   collect(n = Inf) 
+#   select(name,date,mean,sitename,cultivar_id,site_id)
 
 write.csv(height_table, '~/Group-4/data/height_data.csv')
+
+height_table <- filter(height_table, date > lubridate::ymd('2016-09-07') & date < lubridate::ymd('2016-10-01'))
+
+
+
+
+
+
+
 
 
 
@@ -72,7 +84,7 @@ growthmean = mean(regr_individuals$slope)
 
 ggplot(data=regr_individuals, aes(regr_individuals$slope)) +
   geom_histogram(col='black', fill = 'springgreen4', alpha = 0.7) +
-  labs(title = 'Growth Rates of Outdoor Plants (Individual Plots)') +
+  labs(title = 'Growth Rates of Outdoor Plants') +
   labs(x="Growth (cm/day)", y="Count") +
   geom_vline(xintercept =growthmean, color="red")
 
