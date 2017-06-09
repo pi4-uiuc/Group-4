@@ -14,7 +14,7 @@ library(ggplot2)
 
 
 ## Background
-Our original problem was to predict geometric properties of sorghum grown outdoors using the data from sorghum grown indoors. These properties included leaf length, leaf width, plant height, height, and canopy height.  
+Our original problem was to predict geometric properties of sorghum grown outdoors using the data from sorghum grown indoors. These properties included leaf length and width, leaf count, stem thickness, plant height, height, and canopy height, and the angle of leaf attachment.  
 
 However, measurements were not available for all of the above traits. Additionally, none were measured both indoors and outdoors.
 
@@ -28,15 +28,11 @@ Ultimately, we decided to compare the growth rates of all cultivars of indoor pl
 ## Description of Data
 We considered plant height (mm), measured indoors, and height (cm), measured outdoors.
 
-
 There were 22450 measurments outdoors from plants in 781 sites and 174 stated cultivars. The measurements were taken on 46 days from August 8th, 2016 to October 6, 2016. 
 
 There were 915 plant measurements indoors from plants in 4 cultivars. All plants were considered to be at the same site. The measurements were taken on 18 days from June 3, 2016 to June 23, 2016. 
 
-
-The indoor plants were in a greenhouse in St. Louis, Missouri. 
-
-The outdoors plants were grown outdoors in Mariscopa, Arizona. 
+The indoor plants were grown in a greenhouse in St. Louis, Missouri, while the outdoor plants were grown outdoors in Mariscopa, Arizona. 
 
 
 ## Exploratory Data Analysis
@@ -45,12 +41,19 @@ Our initial analysis found an interval of time (prior to Sept. 6) for the outdoo
 Indoor plant data did not have a similar block of time with zero/negative growth, and it also exhibited a linear-like shape.
 
 Next, we stratified indoor plant data by cultivar, and outdoor plant data by plot location and by cultivar.
-
+### Indoor heights by cultivar:
+![](indoor_heights_by_cultivar.png){ width=75% }
+### Outdoor heights by cultivar:
+![](outdoor_heights_by_cultivar.png){ width=75% }
 
 ## Cleaning the Data
+Since we were interested in the typical rate of growth of the plants, we decided to crop the data for the outdoor plants to the range in which theis growth seems most typical.
 We truncated the outdoor heights and explored the data from Sept. 6 to Sept. 28 in order to compare similar stages of growth between the two locations. Analysis of weather data suggests that the initial period of zero/negative growth was abnormally hot.
 
 For both sets of data, we removed any measurements missing dates, and removed measurements missing cultivar identifications as needed.
+
+![](before_crop.png){ width=75% }
+![](cropped.png){ width=75% }
 
 
 ## Analysis
