@@ -34,7 +34,7 @@ So in the end, we decided to compare the growth rates of all the cultivars of in
 We looked at plant height measured indoors, which was measured in mm, and height measured outdoors, which was measured in cm.
 
 
-There were 22450 measurments outdoors from plants in 781 sites and 174 stated cultivars. The measurements were taken on 46 days from August 8th, 2016 to October 6,2016. We truncated the outdoor heights and explored the data from September 6,2016 to September 28,2016.
+There were 22450 measurments outdoors from plants in 781 sites and 174 stated cultivars. The measurements were taken on 46 days from August 8th, 2016 to October 6,2016. 
 
 There were 915 plant measurements indoors from plants in 4 cultivars. All plants were considered to be at the same site. The measurements were taken on 18 days from June 3, 2016 to June 23,2016. 
 
@@ -45,12 +45,13 @@ The outdoors plants were grown outdoors in Mariscopa, Arizona.
 
 
 ## Exploratory Data Analysis
+Our initial analysis found an interval of time (prior to Sept. 6) for the outdoor data in which plant growths were near zero or negative. Outside of this time interval, the overall shape of data suggested linear-like growth.
 
-
+Indoor plant data did not have a similar block of time with zero/negative growth, and it also exhibited a linear-like shape.
 
 
 ## Cleaning the Data
-
+We truncated the outdoor heights and explored the data from Sept. 6 to Sept. 28. For both sets of data, we removed any measurements missing dates, and removed measurements missing cultivar identifications as needed.
 
 
 ## Analysis
