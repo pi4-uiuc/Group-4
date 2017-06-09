@@ -29,7 +29,7 @@ Ultimately, we decided to compare the growth rates of all cultivars of indoor pl
 We considered plant height (mm), measured indoors, and height (cm), measured outdoors.
 
 
-There were 22450 measurments outdoors from plants in 781 sites and 174 stated cultivars. The measurements were taken on 46 days from August 8th, 2016 to October 6,2016. 
+There were 22450 measurments outdoors from plants in 781 sites and 174 stated cultivars. The measurements were taken on 46 days from August 8th, 2016 to October 6, 2016. 
 
 There were 915 plant measurements indoors from plants in 4 cultivars. All plants were considered to be at the same site. The measurements were taken on 18 days from June 3, 2016 to June 23, 2016. 
 
