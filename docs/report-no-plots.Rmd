@@ -51,8 +51,8 @@ For both sets of data, we removed any measurements missing dates, and removed me
 ![](before_crop.png)
 ![](cropped.png)
 
-![]("../heightplot/height regression by site_id.png")
-![]("../heightplot/height regression line.png")
+![]("../heightplot/height-regression-by-site_id.png")
+![]("../heightplot/height-regression-line.png")
 
 ## Analysis
 
