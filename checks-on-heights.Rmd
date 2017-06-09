@@ -37,7 +37,7 @@ big_table <- traits %>%
 
 height_table <- big_table %>%
     filter(name == 'height') %>%
-#   filter(name == 'height'&!is.null(date)) %>%
+    filter(name == 'height'&!is.null(date)) %>%
     filter(date > lubridate::ymd('2016-09-07')) %>%
     filter(date < lubridate::ymd('2016-10-01')) %>%
 #   collect(n = Inf) 

@@ -5,6 +5,7 @@ date: "6/8/2017"
 output: html_document
 ---
 
+
 ```{r, warning=FALSE}
 library(dplyr)
 library(readr)
@@ -30,54 +31,109 @@ big_table <- traits %>%
 
 
 
+plot(height_table$date, height_table$mean, xlab = 'Date', ylab = 'Heights (cm)')
 
-#create linear regression lines for each outdoors site id
-#collect height data into a .csv file
+
+#collect height data into a .csv file and into data frames
 
 height_table <- big_table %>%
     filter(name == 'height') %>%
-    collect(n = Inf) 
- #   select(name,date,mean,sitename,greenhouse,city,cultivar_id,site_id) %>%
+    filter(name == 'height' & !is.null(date)) %>%
+    select(name,date,mean,sitename,cultivar_id,site_id) %>% 
+    collect(n = Inf)
+
+height_table_cult <- big_table %>%
+    filter(name == 'height') %>%
+    filter(name == 'height' & !is.null(date) & !is.null(cultivar_id)) %>%
+    select(name,date,mean,sitename,cultivar_id,site_id) %>% 
+    collect(n = Inf)
 
 
 write.csv(height_table, '~/Group-4/data/height_data.csv')
 
+height_table <- filter(height_table, date > lubridate::ymd('2016-09-07') & date < lubridate::ymd('2016-10-01'))
+
+height_table_cult <- filter(height_table_cult, date > lubridate::ymd('2016-09-07') & date < lubridate::ymd('2016-10-01'))
 
 
 
-#convert dates to correct date type
+
+#convert dates to correct date type, plot height scatterplots
 
 height_table$date <- sapply(height_table$date, as.Date)
+height_table_cult$date <- sapply(height_table_cult$date, as.Date)
 
-plot(height_table$date, height_table$mean)
+plot(height_table$date, height_table$mean, xlab = 'Date', ylab = 'Heights (cm)')
 
-all_regr <- lm(height_table$date ~ height_table$mean)
+#generate a linear model for each site
 
+regr_sites <- data.frame()
 
-
-#generate a linear model for each unique location 
-regr_individuals <- data.frame()
-
-for(plotindex in unique(height_table$sitename)){
+for(site in unique(height_table$site_id)){
+  
   #pick a site and generate its linear model
-  heights_plotindex <- subset(height_table, sitename == plotindex, select = c(date, mean))
-  regrindex <- lm(heights_plotindex$mean ~ heights_plotindex$date)
+  heights_siteindex <- subset(height_table, site_id == site, select = c(date, mean))
+  regrindex <- lm(heights_siteindex$mean ~ heights_siteindex$date)
   #add the site and its lin model to the data frame
-  regr_individuals <- rbind(regr_individuals, data.frame(plotindex, regrindex$coefficients[2]), make.row.names = FALSE)
+  regr_sites <- rbind(regr_sites, data.frame(site, regrindex$coefficients[2]), make.row.names = FALSE)
 }
 
-names(regr_individuals)<-c('site_id','slope')
-growthmean = mean(regr_individuals$slope)
+
+names(regr_sites)<-c('site_id','slope')
+growthmean_sites = mean(regr_sites$slope)
+
+#plots!
 
 
-ggplot(data=regr_individuals, aes(regr_individuals$slope)) +
+ggplot(data=regr_sites, aes(regr_sites$slope)) +
   geom_histogram(col='black', fill = 'springgreen4', alpha = 0.7) +
-  labs(title = 'Growth Rates of Outdoor Plants (Individual Plots)') +
+  labs(title = 'Growth Rates of Outdoor Sorghum by Site') +
+  labs(x="Growth (cm/day)", y="Count") +
+  geom_vline(xintercept =growthmean_sites, color="red")
+
+ggplot(data=regr_sites, aes(regr_sites$slope)) +
+  geom_density(fill = 'springgreen3', alpha = 0.5) +
+  labs(title = 'Kernel Density of Growth Rates by Site') +
+  labs(x="Growth (cm/day)", y="Density")
+
+
+
+
+
+
+##generate a linear model for each cultivar id 
+
+
+
+regr_cults <- data.frame()
+
+for(cultivar in unique(height_table_cult$cultivar_id)){
+  
+  #pick a site and generate its linear model
+  heights_cultindex <- subset(height_table_cult, cultivar_id == cultivar, select = c(date, mean))
+  regrindex <- lm(heights_cultindex$mean ~ heights_cultindex$date)
+  
+  #add the site and its lin model to the data frame
+  regr_cults <- rbind(regr_cults, data.frame(cultivar, regrindex$coefficients[2]), make.row.names = FALSE)
+}
+
+names(regr_cults)<-c('cultivar_id','slope')
+growthmean = mean(regr_cults$slope)
+
+#plots, part 2
+
+
+ggplot(data=regr_cults, aes(regr_cults$slope)) +
+  geom_histogram(col='black', fill = 'forestgreen', alpha = 0.7) +
+  labs(title = 'Growth Rates of Outdoor Sorghum Cultivars') +
   labs(x="Growth (cm/day)", y="Count") +
   geom_vline(xintercept =growthmean, color="red")
 
 
-
-
+  
+ggplot(data=regr_cults, aes(regr_cults$slope)) +
+  geom_density(fill = 'darkgreen', alpha = 0.5) +
+  labs(title = 'Kernel Density of Growth Rates by Cultivar') +
+  labs(x="Growth (cm/day)", y="Density")
 
 ```
