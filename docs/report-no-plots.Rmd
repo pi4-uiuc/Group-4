@@ -42,9 +42,9 @@ Indoor plant data did not have a similar block of time with zero/negative growth
 
 Next, we stratified indoor plant data by cultivar, and outdoor plant data by plot location and by cultivar.
 ### Indoor heights by cultivar:
-![](indoor_heights_by_cultivar.png){ width=75% }
+![](indoor_heights_by_cultivar.png)
 ### Outdoor heights by cultivar:
-![](outdoor_heights_by_cultivar.png){ width=75% }
+![](outdoor_heights_by_cultivar.png)
 
 ## Cleaning the Data
 Since we were interested in the typical rate of growth of the plants, we decided to crop the data for the outdoor plants to the range in which theis growth seems most typical.
@@ -52,15 +52,16 @@ We truncated the outdoor heights and explored the data from Sept. 6 to Sept. 28 
 
 For both sets of data, we removed any measurements missing dates, and removed measurements missing cultivar identifications as needed.
 
-![](before_crop.png){ width=75% }
-![](cropped.png){ width=75% }
+![](before_crop.png)
+![](cropped.png)
 
 
 ## Analysis
 Outdoor growth rates, when stratified by site, were roughly normally distributed with a right skew, a mean of 1.35 and a standard deviation of 0.417.
+![](../heightplot/)
 
 Outdoor growth rates, stratified by cultivar, were bimodal with a mean of 1.26 and a standard deviation of 0.293.
-
+![](../heightplot/growth-rates-cultivar.png)
 
 ## Discussion
 The data clearly supports the conclusion that Sorghum grows more quickly in indoor conditions, which is not a surprise! 
