@@ -57,10 +57,12 @@ For both sets of data, we removed any measurements missing dates, and removed me
 
 
 ## Analysis
+Outdoor growth rates, when stratified by site, were roughly normally distributed with a right skew, a mean of 1.35 and a standard deviation of 0.417.
 
+Outdoor growth rates, stratified by cultivar, were bimodal with a mean of 1.26 and a standard deviation of 0.293.
 
 
 ## Discussion
-
+The data clearly supports the conclusion that Sorghum grows more quickly in indoor conditions, which is not a surprise! 
 
 
