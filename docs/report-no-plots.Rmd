@@ -51,6 +51,8 @@ For both sets of data, we removed any measurements missing dates, and removed me
 ![](before_crop.png)
 ![](cropped.png)
 
+![]("../heightplot/height regression by site_id.png")
+![]("../heightplot/height regression line.png")
 
 ## Analysis
 
@@ -65,6 +67,10 @@ Outdoor growth rates, when stratified by site, were roughly normally distributed
 Outdoor growth rates, stratified by cultivar, were bimodal with a mean of 1.26 and a standard deviation of 0.293.
 
 ![](../heightplot/growth-rates-cultivar.png)
+
+![](../heightplot/growth-rates-density-site.png)
+
+![](../heightplot/growth-rates-density-cultivar.png)
 
 ## Discussion
 The data clearly supports the conclusion that Sorghum grows more quickly in indoor conditions, which is not a surprise! 
