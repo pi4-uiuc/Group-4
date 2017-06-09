@@ -53,6 +53,11 @@ For both sets of data, we removed any measurements missing dates, and removed me
 
 
 ## Analysis
+
+Growth rates for indoor-grown cultivars were 5.34, 5.82, 6.50, and 7.48.
+
+![](../indoor_plots/lm_by_cultivar.png)
+
 Outdoor growth rates, when stratified by site, were roughly normally distributed with a right skew, a mean of 1.35 and a standard deviation of 0.417.
 
 ![](../heightplot/growth-rates-site.png)
