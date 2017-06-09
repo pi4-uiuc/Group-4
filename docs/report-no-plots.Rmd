@@ -6,10 +6,6 @@ output: html_notebook
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message=FALSE)
-
-library(dplyr)
-library(readr)
-library(ggplot2)
 ```
 
 
@@ -58,7 +54,7 @@ For both sets of data, we removed any measurements missing dates, and removed me
 
 ## Analysis
 Outdoor growth rates, when stratified by site, were roughly normally distributed with a right skew, a mean of 1.35 and a standard deviation of 0.417.
-![](../heightplot/)
+![](../heightplot/growth-rates-site.png)
 
 Outdoor growth rates, stratified by cultivar, were bimodal with a mean of 1.26 and a standard deviation of 0.293.
 ![](../heightplot/growth-rates-cultivar.png)
